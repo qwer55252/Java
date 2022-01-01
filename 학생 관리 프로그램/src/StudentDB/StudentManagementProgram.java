@@ -1,16 +1,18 @@
+package StudentDB;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 
-public class SMP extends JFrame {
+public class StudentManagementProgram extends JFrame {
     Font font = new Font("Aharoni 굵게",Font.BOLD, 12);
     JPanel [] p = new JPanel[7]; //카테고리
     String [] category= {"출석", "진도", "수업 집중도", "과제 수행도", "플래너 수행도", "과제", "TEST"};
     Color [] colorName = {new Color(0xCCFFCC),new Color(0xFFFFCC),new Color(0xFFCCFF), new Color(0xCCCCFF)
-    ,new Color(0xCCCCCC),new Color(0xFFCCCC), new Color(0xCCFFFF)};
-    public SMP() {
+            ,new Color(0xCCCCCC),new Color(0xFFCCCC), new Color(0xCCFFFF)};
+    public StudentManagementProgram() {
         setTitle("주간 관리표");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
@@ -57,8 +59,9 @@ public class SMP extends JFrame {
                 scrollpane.setSize(400,80);
                 c.add(scrollpane);
 
-                String text = "# 출석시간 10분 전에 하루도 빠지지 않고 출석하는 경우 학생들의 공부를 도와줄 선물이 준비되어 있습니다." +
-                         "\n" + "# 무단지각을 5회이상 하게 되면 퇴원 처리 됩니다.";
+                String text = """
+                        # 출석시간 10분 전에 하루도 빠지지 않고 출석하는 경우 학생들의 공부를 도와줄 선물이 준비되어 있습니다.
+                        # 무단지각을 5회이상 하게 되면 퇴원 처리 됩니다.""";
                 JTextArea ta = new JTextArea(text,7,25);
                 ta.setLocation(x+405,y);
                 ta.setSize(250,80);
@@ -131,11 +134,13 @@ public class SMP extends JFrame {
                 c.add(scrollpane);
 
                 //설명
-                String text = "# 수업 집중도 1/2/3/4/5\n"+"\n"
-                        + "2 - 수업시간 동안 집중한 시간보다 집중하지 못한 시간이 더 많음"+"\n"
-                        + "3 - 어느 정도 선생님과의 의사소통을 하며 교감함"+"\n"
-                        + "4 - 선생님과의 의사소통이 원활히 되고, 수업에 완전히 집중함"+"\n"
-                        + "5 - 완벽 집중도";
+                String text = """
+                        # 수업 집중도 1/2/3/4/5
+
+                        2 - 수업시간동안 집중한 시간보다 집중하지 못한 시간이 더 많음
+                        3 - 어느 정도 선생님과의 의사소통을 하며 교감함
+                        4 - 선생님과의 의사소통이 원활히 되고, 수업에 완전히 집중함
+                        5 - 완벽 집중도""";
                 JTextArea ta = new JTextArea(text,7,25);
                 ta.setLocation(x+305,y);
                 ta.setSize(350,110);
@@ -176,11 +181,13 @@ public class SMP extends JFrame {
                 c.add(scrollpane);
 
                 //설명
-                String text = "# 과제 수행도 1/2/3/P\n"+"\n"
-                        + "1 - 숙제를 50%미만으로 이행해 옴\n"
-                        + "2 - 숙제 달성률 50~70%\n"
-                        + "3 - 숙제 달성률 70~90%\n"
-                        + "P [Perfect] - 숙제 달성률 90~100% + 오답 완벽 처리";
+                String text = """
+                        # 과제 수행도 1/2/3/P
+
+                        1 - 숙제를 50%미만으로 이행해 옴
+                        2 - 숙제 달성률 50~70%
+                        3 - 숙제 달성률 70~90%
+                        P [Perfect] - 숙제 달성률 90~100% + 오답 완벽 처리""";
                 JTextArea ta = new JTextArea(text,7,25);
                 ta.setLocation(x+305,y);
                 ta.setSize(350,110);
@@ -221,10 +228,13 @@ public class SMP extends JFrame {
                 c.add(scrollpane);
 
                 //설명
-                String text = "# 플래너 수행도 A/B/C\n"+"\n"
-                        + "A - 자세한 계획을 세우고 이행 정도를 정확히 기입함\n"
-                        + "B - 계획을 세웠으나, 자세하지 않거나 이행정도를 기입하지 않음\n"
-                        + "C - 플래너를 작성하지 않음\n";
+                String text = """
+                        # 플래너 수행도 A/B/C
+
+                        A - 자세한 계획을 세우고 이행 정도를 정확히 기입함
+                        B - 계획을 세웠으나, 자세하지 않거나 이행정도를 기입하지 않음
+                        C - 플래너를 작성하지 않음
+                        """;
                 JTextArea ta = new JTextArea(text,7,25);
                 ta.setLocation(x+305,y);
                 ta.setSize(350,110);
@@ -318,7 +328,5 @@ public class SMP extends JFrame {
         setSize(800,1000);
         setVisible(true);
     }
-    public static void main(String[] args){
-        new SMP();
-    }
 }
+
