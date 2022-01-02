@@ -5,6 +5,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class StudentManagementProgram extends JFrame {
     Font font = new Font("Aharoni 굵게",Font.BOLD, 12);
@@ -12,7 +13,13 @@ public class StudentManagementProgram extends JFrame {
     String [] category= {"출석", "진도", "수업 집중도", "과제 수행도", "플래너 수행도", "과제", "TEST"};
     Color [] colorName = {new Color(0xCCFFCC),new Color(0xFFFFCC),new Color(0xFFCCFF), new Color(0xCCCCFF)
             ,new Color(0xCCCCCC),new Color(0xFFCCCC), new Color(0xCCFFFF)};
-    public StudentManagementProgram() {
+    private ArrayList<StudentData> sList;
+    public StudentManagementProgram(ArrayList<StudentData> sList) {
+        this.sList = sList;
+        int k = 0;
+        String[] str = sList.get(k).getDate().split("/");
+        String setStr = str[2]+"."+str[1]+"."+str[0];
+        sList.get(k).setDate(setStr);
         setTitle("주간 관리표");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
@@ -36,7 +43,7 @@ public class StudentManagementProgram extends JFrame {
 
                 //날짜, 출석시간 표
                 String[] header = {"날짜", "출석시간"};
-                String[][] contents = {{"#","#"},{"#","#"}};
+                String[][] contents = {{sList.get(k).getDate(), sList.get(k).getAttendance()},{"#","#"}};
                 JTable table = new JTable(contents,header);
                 table.setRowHeight(25); //셀 높이 설정
                 table.getTableHeader().setFont(font);
@@ -77,7 +84,11 @@ public class StudentManagementProgram extends JFrame {
 
                 //날짜, 교재, 진도 표
                 String[] header = {"날짜", "교재", "진도"};
-                String[][] contents = {{"#","#","#"},{"#","#","#"}};
+                String[][] contents = {{
+                    sList.get(k).getDate(),
+                    sList.get(k).getTextbook(),
+                    sList.get(k).getProgress()
+                },{"#","#","#"}};
                 JTable table = new JTable(contents,header);
                 table.setRowHeight(40); //셀 높이 설정
                 table.getTableHeader().setFont(font);
@@ -108,8 +119,8 @@ public class StudentManagementProgram extends JFrame {
                 x = 90;
 
                 //수업 집중도 표
-                String[] header = {"2021.12.14(예비)", "2021.12.15(예비)"};
-                String[][] contents = {{"#","#"}};
+                String[] header = {sList.get(k).getDate(), "2021.12.18(예비)"};
+                String[][] contents = {{sList.get(k).getTest_score(),"#"}};
                 JTable table = new JTable(contents,header);
                 table.setRowHeight(80); //셀 높이 설정
                 table.getTableHeader().setFont(font);
@@ -119,8 +130,8 @@ public class StudentManagementProgram extends JFrame {
                 //셀 가운데 정렬
                 DefaultTableCellRenderer cAC = new DefaultTableCellRenderer();
                 cAC.setHorizontalAlignment(JLabel.CENTER);
-                table.getColumn("2021.12.15(예비)").setCellRenderer(cAC);
-                table.getColumn("2021.12.14(예비)").setCellRenderer(cAC);
+                table.getColumn(sList.get(k).getDate()).setCellRenderer(cAC);
+                table.getColumn("2021.12.18(예비)").setCellRenderer(cAC);
 
                 //헤더 설정
                 JTableHeader h = table.getTableHeader();
@@ -155,8 +166,8 @@ public class StudentManagementProgram extends JFrame {
                 x = 90;
 
                 //과제 수행도 표
-                String[] header = {"2021.12.14(예비)", "2021.12.15(예비)"};
-                String[][] contents = {{"#","#"}};
+                String[] header = {sList.get(k).getDate(), "2021.12.18(예비)"};
+                String[][] contents = {{sList.get(k).getAssignment_performance(),"#"}};
                 JTable table = new JTable(contents,header);
                 table.setRowHeight(80); //셀 높이 설정
                 table.getTableHeader().setFont(font);
@@ -166,8 +177,8 @@ public class StudentManagementProgram extends JFrame {
                 //셀 가운데 정렬
                 DefaultTableCellRenderer cAC = new DefaultTableCellRenderer();
                 cAC.setHorizontalAlignment(JLabel.CENTER);
-                table.getColumn("2021.12.15(예비)").setCellRenderer(cAC);
-                table.getColumn("2021.12.14(예비)").setCellRenderer(cAC);
+                table.getColumn(sList.get(k).getDate()).setCellRenderer(cAC);
+                table.getColumn("2021.12.18(예비)").setCellRenderer(cAC);
 
                 //헤더 설정
                 JTableHeader h = table.getTableHeader();
@@ -202,8 +213,8 @@ public class StudentManagementProgram extends JFrame {
                 x = 90;
 
                 //플래너 수행도 표
-                String[] header = {"2021.12.14(예비)", "2021.12.15(예비)"};
-                String[][] contents = {{"#","#"}};
+                String[] header = {sList.get(k).getDate(), "2021.12.18(예비)"};
+                String[][] contents = {{sList.get(k).getPlanner_performance(),"#"}};
                 JTable table = new JTable(contents,header);
                 table.setRowHeight(80); //셀 높이 설정
                 table.getTableHeader().setFont(font);
@@ -213,8 +224,8 @@ public class StudentManagementProgram extends JFrame {
                 //셀 가운데 정렬
                 DefaultTableCellRenderer cAC = new DefaultTableCellRenderer();
                 cAC.setHorizontalAlignment(JLabel.CENTER);
-                table.getColumn("2021.12.15(예비)").setCellRenderer(cAC);
-                table.getColumn("2021.12.14(예비)").setCellRenderer(cAC);
+                table.getColumn(sList.get(k).getDate()).setCellRenderer(cAC);
+                table.getColumn("2021.12.18(예비)").setCellRenderer(cAC);
 
                 //헤더 설정
                 JTableHeader h = table.getTableHeader();
@@ -249,8 +260,8 @@ public class StudentManagementProgram extends JFrame {
                 x = 90;
 
                 //과제 표
-                String[] header = {"2021.12.14(예비)", "2021.12.18(예비)"};
-                String[][] contents = {{"#","#"}};
+                String[] header = {sList.get(k).getDate(), "2021.12.18(예비)"};
+                String[][] contents = {{sList.get(k).getAssignment_comment(),"#"}};
                 JTable table = new JTable(contents,header);
                 table.setRowHeight(60); //셀 높이 설정
                 table.getTableHeader().setFont(font);
@@ -263,8 +274,8 @@ public class StudentManagementProgram extends JFrame {
                 //셀 가운데 정렬
                 DefaultTableCellRenderer cAC = new DefaultTableCellRenderer();
                 cAC.setHorizontalAlignment(JLabel.CENTER);
+                table.getColumn(sList.get(k).getDate()).setCellRenderer(cAC);
                 table.getColumn("2021.12.18(예비)").setCellRenderer(cAC);
-                table.getColumn("2021.12.14(예비)").setCellRenderer(cAC);
                 table.setFont(this.font);
 
                 //스크롤(필수인듯)
@@ -287,8 +298,8 @@ public class StudentManagementProgram extends JFrame {
                 x = 90;
 
                 //TEST 표
-                String[] header = {"2021.12.14(예비)", "2021.12.18(예비)"};
-                String[][] contents = {{"#","#"}};
+                String[] header = {sList.get(k).getDate(), "2021.12.18(예비)"};
+                String[][] contents = {{sList.get(k).getTest_score(),"#"}};
                 JTable table = new JTable(contents,header);
                 table.setRowHeight(80); //셀 높이 설정
                 table.getTableHeader().setFont(font);
@@ -303,8 +314,8 @@ public class StudentManagementProgram extends JFrame {
                 //셀 가운데 정렬
                 DefaultTableCellRenderer cAC = new DefaultTableCellRenderer();
                 cAC.setHorizontalAlignment(JLabel.CENTER);
+                table.getColumn(sList.get(k).getDate()).setCellRenderer(cAC);
                 table.getColumn("2021.12.18(예비)").setCellRenderer(cAC);
-                table.getColumn("2021.12.14(예비)").setCellRenderer(cAC);
                 table.setFont(this.font);
 
                 //스크롤(필수인듯)
