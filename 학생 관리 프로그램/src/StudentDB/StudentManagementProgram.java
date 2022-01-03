@@ -3,6 +3,7 @@ package StudentDB;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.ArrayList;
@@ -44,7 +45,8 @@ public class StudentManagementProgram extends JFrame {
                 //날짜, 출석시간 표
                 String[] header = {"날짜", "출석시간"};
                 String[][] contents = {{sList.get(k).getDate(), sList.get(k).getAttendance()},{"#","#"}};
-                JTable table = new JTable(contents,header);
+                DefaultTableModel model = new DefaultTableModel(contents,header);
+                JTable table = new JTable(model);
                 table.setRowHeight(25); //셀 높이 설정
                 table.getTableHeader().setFont(font);
 
