@@ -1,17 +1,13 @@
 package StudentDB;
 
 //package sudabang_management;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+
 import java.util.ArrayList;
 
 
@@ -19,13 +15,14 @@ public class Week_table extends JFrame {
     // JFrame 에 swing을 붙이는게 좋을까?
     // JFrmae 위에 JPanel에 swing을 붙이는게 좋을까?
 
-    private ArrayList<StudentData> sList;
-    public Week_table(ArrayList<StudentData> sList) {
-        this.sList = sList;
-        int k = 0;
+    public Week_table(ArrayList<StudentData> sList, ArrayList<String> nList, ArrayList<String> wList) {
+        int k = 0; //k는 몇 번째 학생인지 -> 테스트용
+
+        //날짜 14/12/2021 -> 2021.12.14 형태로 바꾸기
         String[] str = sList.get(k).getDate().split("/");
         String setStr = str[2]+"."+str[1]+"."+str[0];
         sList.get(k).setDate(setStr);
+
         setTitle("주간관리표 GUI");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -57,7 +54,7 @@ public class Week_table extends JFrame {
         title.setPreferredSize(new Dimension(this.getWidth(), 60));
         title.setBackground(Color.white);
 
-        JLabel title_label = new JLabel("<"+sList.get(k).getName()+" 학생"+"1월"+"1주차 주간관리표>");
+        JLabel title_label = new JLabel("<"+sList.get(k).getName()+" 학생 "+sList.get(k).getWeek_num()+" 주간관리표>");
         title_label.setFont(title_font);
         title_label.setHorizontalAlignment(JLabel.CENTER);
         title.add(title_label);
@@ -87,6 +84,7 @@ public class Week_table extends JFrame {
         att_label.setVerticalAlignment(JLabel.CENTER);
         att_panel1.add(att_label, BorderLayout.CENTER);
 
+        //날짜 칼럼 생성
         JPanel att_panel2 = new JPanel(new GridLayout(3, 1));
         att_panel2.setBounds(90, 0, 250, 90);
         att_panel2.setBorder(border1);
@@ -117,7 +115,7 @@ public class Week_table extends JFrame {
         att_panel2.add(att_panel2_2);
         att_panel2.add(att_panel2_3);
 
-
+        //출석시간 칼럼 생성
         JPanel att_panel3 = new JPanel(new GridLayout(3, 1));
         att_panel3.setBounds(340, 0, 250, 90);
         att_panel3.setBorder(border1);
@@ -817,32 +815,5 @@ public class Week_table extends JFrame {
         setVisible(true);
     }
 
-
-//    public static void main(String[] args) {
-////        Week_table week_table = new Week_table();
-////        makeScreenshot(week_table);
-//        new Week_table();
-//
-//    }
-    // JFrame을 이미지로 저장하는 함수(?)
-//    public static final void makeScreenshot(JFrame argFrame) {
-//        Rectangle rec = argFrame.getBounds(); // JFrame 의 크기 저장을 위한 Ractangle
-//        BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB); // JFrmae 크기에 맞춰 Bufferdiamge 생성
-//        argFrame.paint(bufferedImage.getGraphics());// Jframe을 bufferedImage에 그린다
-//        bufferedImage.setRGB(0, 0, 100);
-//
-//
-//        try {
-//            // Create test file
-//            File test = new File("/Users/jeongsangheon/Desktop/javaPlace/management_table_project/week_table.png");
-//
-//            // Use the ImageIO API to write the bufferedImage to a temporary file
-//            ImageIO.write(bufferedImage, "png", test);
-//
-//
-//        } catch (IOException ioe) {
-//            ioe.printStackTrace();
-//        }
-//    }
 }
 

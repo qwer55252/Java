@@ -35,6 +35,7 @@ public class DBConnection {
         return false;
     }
 
+    //학생 정보 출력 메서드
     public void showStudents(){
         try {
             String SQL = "SELECT * FROM student";
@@ -55,6 +56,9 @@ public class DBConnection {
                 sd.setTextbook(rs.getString("교재"));
                 sd.setTest_score(rs.getString("테스트결과"));
                 sd.setDate(rs.getString("날짜"));
+                sd.setMonth(rs.getInt("월"));
+                sd.setWeek(rs.getInt("주"));
+                sd.setWeek_num(rs.getString("병합"));
                 sList.add(sd);
 
             }
@@ -73,11 +77,12 @@ public class DBConnection {
         }
     }
 
+    //학생 리스트 생성 메서드
     public ArrayList<StudentData> getStudentList(){
         try {
             String SQL = "SELECT * FROM student";
             rs = st.executeQuery(SQL);
-            ArrayList<StudentData> sList = new ArrayList<StudentData>();
+            ArrayList<StudentData> studentList = new ArrayList<StudentData>();
             while(rs.next()){
                 StudentData sd = new StudentData();
                 sd.setName(rs.getString("이름"));
@@ -91,11 +96,46 @@ public class DBConnection {
                 sd.setTextbook(rs.getString("교재"));
                 sd.setTest_score(rs.getString("테스트결과"));
                 sd.setDate(rs.getString("날짜"));
-                sList.add(sd);
+                sd.setMonth(rs.getInt("월"));
+                sd.setWeek(rs.getInt("주"));
+                sd.setWeek_num(rs.getString("병합"));
+                studentList.add(sd);
             }
-            return sList;
+            return studentList;
         }catch (Exception e){
-            System.out.println("학생 조회에 실패하였습니다.");
+            System.out.println("학생 인스턴스 생성을 실패하였습니다.");
+        }
+        return null;
+    }
+
+    public ArrayList<String> getStudentNames(){
+        try {
+            String SQL = "SELECT DISTINCT `이름` FROM student";
+            rs = st.executeQuery(SQL);
+            ArrayList<String> nameList = new ArrayList<String>();
+            while(rs.next()){
+                String name;
+                name = rs.getString("이름");
+                nameList.add(name);
+            }
+            return nameList;
+        }catch (Exception e){
+            System.out.println("학생 이름(유니크) 생성을 실패하였습니다.");
+        }
+        return null;
+    }
+    public ArrayList<String> getWeekNum(){
+        try {
+            String SQL = "SELECT DISTINCT `병합` FROM student";
+            rs = st.executeQuery(SQL);
+            ArrayList<String> weekNumList = new ArrayList<String>();
+            while(rs.next()){
+                String weekNum;
+                weekNum = rs.getString("병합");
+            }
+            return weekNumList;
+        }catch (Exception e){
+            System.out.println("주차(유니크) 생성을 실패하였습니다.");
         }
         return null;
     }

@@ -12,6 +12,35 @@ public class StudentData {
     private String textbook;
     private String progress;
     private String date;
+    private int month;
+    private int week;
+    private String week_num;
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getWeek() {
+        return week;
+    }
+
+    public void setWeek(int week) {
+        this.week = week;
+    }
+
+    public String getWeek_num() {
+        return week_num;
+    }
+
+    public void setWeek_num(String week_num) {
+        this.week_num = week_num;
+    }
+
+
 
     public String getDate() {
         return date;
@@ -113,13 +142,16 @@ public class StudentData {
                 ", textbook='" + textbook + '\'' +
                 ", progress='" + progress + '\'' +
                 ", date='" + date + '\'' +
+                ", month=" + month +
+                ", week=" + week +
+                ", week_num='" + week_num + '\'' +
                 '}';
     }
 
     public StudentData() { //기본 생성자
     }
 
-    public StudentData(String date, int num, String name, String attendance, String assignment_performance, String planner_performance, String concentration, String test_score, String assignment_comment, String textbook, String progress) {
+    public StudentData(int month, int week, String week_num, String date, int num, String name, String attendance, String assignment_performance, String planner_performance, String concentration, String test_score, String assignment_comment, String textbook, String progress) {
         this.num = num;
         this.name = name;
         this.attendance = attendance;
@@ -131,5 +163,8 @@ public class StudentData {
         this.textbook = textbook;
         this.progress = progress;
         this.date = date;
+        this.month = month;
+        this.week = week;
+        this.week_num = week_num;
     }
 }
