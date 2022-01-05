@@ -1,6 +1,7 @@
 package StudentDB;
 
 //package sudabang_management;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.text.SimpleAttributeSet;
@@ -8,6 +9,10 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.rmi.StubNotFoundException;
 import java.util.ArrayList;
 
 
@@ -15,22 +20,45 @@ public class Week_table extends JFrame {
     // JFrame 에 swing을 붙이는게 좋을까?
     // JFrmae 위에 JPanel에 swing을 붙이는게 좋을까?
 
-    public Week_table(ArrayList<StudentData> sList, ArrayList<String> nList, ArrayList<String> wList) {
+    public Week_table(ArrayList<StudentData> sList, String sName, String sWeekNum) {
         int k = 0; //k는 몇 번째 학생인지 -> 테스트용
-
+        ArrayList<StudentData> printList = new ArrayList<StudentData>(); //출력할 학생의 정보들
+        for (StudentData studentData : sList) {
+            if (studentData.getName().equals(sName) && studentData.getWeek_num().equals(sWeekNum)) {
+                printList.add(studentData);
+            }
+        }
+        if(printList.size() == 1){
+            StudentData nullData = new StudentData();
+            nullData.setName(sName);
+            nullData.setAttendance("-");
+            nullData.setDate("-");
+            nullData.setTextbook("-");
+            nullData.setProgress("-");
+            nullData.setConcentration("-");
+            nullData.setAssignment_performance("-");
+            nullData.setPlanner_performance("-");
+            nullData.setAssignment_comment("-");
+            nullData.setTest_score("-");
+            printList.add(nullData);
+        }
         //날짜 14/12/2021 -> 2021.12.14 형태로 바꾸기
-        String[] str = sList.get(k).getDate().split("/");
-        String setStr = str[2]+"."+str[1]+"."+str[0];
-        sList.get(k).setDate(setStr);
+        for(int i=0;i<2;i++) {
+            if(printList.get(i).getDate().equals("-")) continue;
+            String[] str = printList.get(i).getDate().split("/");
+            String setStr = str[2] + "." + str[0] + "." + str[1];
+            printList.get(i).setDate(setStr);
+        }
 
         setTitle("주간관리표 GUI");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // font
-        Font title_font = new Font("Dialog",Font.PLAIN, 25);
+        Font title_font = new Font("Dialog",Font.BOLD, 25);
         Font font1 = new Font("Dialog",Font.BOLD, 20);
         Font font2 = new Font("Dialog", Font.BOLD, 15);
-        Font font3 = new Font("Dialog", Font.PLAIN, 15);
+        Font font3 = new Font("Dialog", Font.BOLD, 15);
+        Font bigFont = new Font("Dialog",Font.BOLD, 50);
 
 
         // Color
@@ -54,7 +82,7 @@ public class Week_table extends JFrame {
         title.setPreferredSize(new Dimension(this.getWidth(), 60));
         title.setBackground(Color.white);
 
-        JLabel title_label = new JLabel("<"+sList.get(k).getName()+" 학생 "+sList.get(k).getWeek_num()+" 주간관리표>");
+        JLabel title_label = new JLabel("<"+sName+" 학생 "+sWeekNum+" 주간관리표>");
         title_label.setFont(title_font);
         title_label.setHorizontalAlignment(JLabel.CENTER);
         title.add(title_label);
@@ -104,12 +132,15 @@ public class Week_table extends JFrame {
         att_panel2_2.setPreferredSize(new Dimension(250, 30));
         att_panel2_2.setBorder(border1);
         att_panel2_2.setBackground(light_gray_color);
-        att_panel2_2.add(new JLabel(sList.get(k).getDate()));
+        JLabel attLabel = new JLabel(printList.get(0).getDate());
+        attLabel.setSize(new Dimension(250, 30));
+        att_panel2_2.add(attLabel); //정보 저장
 
         JPanel att_panel2_3 = new JPanel();
         att_panel2_3.setPreferredSize(new Dimension(250, 30));
         att_panel2_3.setBorder(border1);
         att_panel2_3.setBackground(light_gray_color);
+        att_panel2_3.add(new JLabel(printList.get(1).getDate())); //정보 저장
 
         att_panel2.add(att_panel2_1);
         att_panel2.add(att_panel2_2);
@@ -135,11 +166,13 @@ public class Week_table extends JFrame {
         att_panel3_2.setPreferredSize(new Dimension(250, 30));
         att_panel3_2.setBorder(border1);
         att_panel3_2.setBackground(light_gray_color);
+        att_panel3_2.add(new JLabel(printList.get(0).getAttendance())); //정보 저장
 
         JPanel att_panel3_3 = new JPanel();
         att_panel3_3.setPreferredSize(new Dimension(250, 30));
         att_panel3_3.setBorder(border1);
         att_panel3_3.setBackground(light_gray_color);
+        att_panel3_3.add(new JLabel(printList.get(1).getAttendance())); //정보 저장
 
         att_panel3.add(att_panel3_1);
         att_panel3.add(att_panel3_2);
@@ -206,11 +239,13 @@ public class Week_table extends JFrame {
         pro_panel2_2.setBounds(0, 25, 250, 50);
         pro_panel2_2.setBorder(border1);
         pro_panel2_2.setBackground(light_gray_color);
+        pro_panel2_2.add(new JLabel(printList.get(0).getDate())); //정보 저장
 
         JPanel pro_panel2_3 = new JPanel();
         pro_panel2_3.setBounds(0, 75, 250, 50);
         pro_panel2_3.setBorder(border1);
         pro_panel2_3.setBackground(light_gray_color);
+        pro_panel2_3.add(new JLabel(printList.get(1).getDate())); //정보 저장
 
         pro_panel2.add(pro_panel2_1);
         pro_panel2.add(pro_panel2_2);
@@ -241,11 +276,13 @@ public class Week_table extends JFrame {
         pro_panel3_2.setBounds(0, 25, 250, 50);
         pro_panel3_2.setBorder(border1);
         pro_panel3_2.setBackground(light_gray_color);
+        pro_panel3_2.add(new JLabel(printList.get(0).getTextbook())); //정보 저장
 
         JPanel pro_panel3_3 = new JPanel();
         pro_panel3_3.setBounds(0, 75, 250, 50);
         pro_panel3_3.setBorder(border1);
         pro_panel3_3.setBackground(light_gray_color);
+        pro_panel3_3.add(new JLabel(printList.get(1).getTextbook())); //정보 저장
 
         pro_panel3.add(pro_panel3_1);
         pro_panel3.add(pro_panel3_2);
@@ -275,11 +312,33 @@ public class Week_table extends JFrame {
         pro_panel4_2.setBounds(0, 25, 250, 50);
         pro_panel4_2.setBorder(border1);
         pro_panel4_2.setBackground(light_gray_color);
+        JTextPane tpName3 = new JTextPane();
+        tpName3.setEditable(false);
+        tpName3.setBackground(light_gray_color);
+        tpName3.setText(printList.get(0).getProgress());
+
+        //tpName의 styleDocument를 가져와 가운데 정렬 설정
+        StyledDocument doc3 = tpName3.getStyledDocument();
+        SimpleAttributeSet ce3 = new SimpleAttributeSet();
+        StyleConstants.setAlignment(ce3, StyleConstants.ALIGN_CENTER);
+        doc3.setParagraphAttributes(0, doc3.getLength(), ce3, false);
+        pro_panel4_2.add(tpName3);
 
         JPanel pro_panel4_3 = new JPanel();
-        pro_panel4_2.setBounds(0, 75, 250, 50);
-        pro_panel4_2.setBorder(border1);
+        pro_panel4_3.setBounds(0, 75, 250, 50);
+        pro_panel4_3.setBorder(border1);
         pro_panel4_3.setBackground(light_gray_color);
+        JTextPane tpName4 = new JTextPane();
+        tpName4.setEditable(false);
+        tpName4.setText(printList.get(1).getProgress());
+        tpName4.setBackground(light_gray_color);
+
+        //tpName의 styleDocument를 가져와 가운데 정렬 설정
+        StyledDocument doc4 = tpName4.getStyledDocument();
+        SimpleAttributeSet ce4 = new SimpleAttributeSet();
+        StyleConstants.setAlignment(ce4, StyleConstants.ALIGN_CENTER);
+        doc4.setParagraphAttributes(0, doc4.getLength(), ce4, false);
+        pro_panel4_3.add(tpName4);
 
 
         pro_panel4.add(pro_panel4_1);
@@ -324,7 +383,7 @@ public class Week_table extends JFrame {
         con_panel2.setBounds(90, 0, 160, 120);
         con_panel2.setBorder(border1);
 
-        JLabel con_date1_label = new JLabel("oooo.oo.oo");
+        JLabel con_date1_label = new JLabel(printList.get(0).getDate());
         con_date1_label.setFont(font3);
         con_date1_label.setHorizontalAlignment(JLabel.CENTER);
         con_date1_label.setVerticalAlignment(JLabel.CENTER);
@@ -339,6 +398,9 @@ public class Week_table extends JFrame {
         con_panel2_2.setBounds(0, 30, 160, 90);
         con_panel2_2.setBorder(border1);
         con_panel2_2.setBackground(light_gray_color);
+        JLabel conLabel2_2  = new JLabel(printList.get(0).getConcentration());
+        conLabel2_2.setFont(bigFont);
+        con_panel2_2.add(conLabel2_2);
 
 
         con_panel2.add(con_panel2_1);
@@ -352,7 +414,7 @@ public class Week_table extends JFrame {
         con_panel3.setBounds(250, 0, 160, 120);
         con_panel3.setBorder(border1);
 
-        JLabel con_date2_label = new JLabel("oooo.oo.oo");
+        JLabel con_date2_label = new JLabel(printList.get(1).getDate());
         con_date2_label.setFont(font3);
         con_date2_label.setHorizontalAlignment(JLabel.CENTER);
         con_date2_label.setVerticalAlignment(JLabel.CENTER);
@@ -368,6 +430,9 @@ public class Week_table extends JFrame {
         con_panel3_2.setBounds(0, 30, 160, 90);
         con_panel3_2.setBorder(border1);
         con_panel3_2.setBackground(light_gray_color);
+        JLabel conLabel3_2  = new JLabel(printList.get(1).getConcentration());
+        conLabel3_2.setFont(bigFont);
+        con_panel3_2.add(conLabel3_2);
 
 
         con_panel3.add(con_panel3_1);
@@ -426,7 +491,7 @@ public class Week_table extends JFrame {
         hws_panel2.setBounds(90, 0, 160, 120);
         hws_panel2.setBorder(border1);
 
-        JLabel hws_date1_label = new JLabel("oooo.oo.oo");
+        JLabel hws_date1_label = new JLabel(printList.get(0).getDate());
         hws_date1_label.setFont(font3);
         hws_date1_label.setHorizontalAlignment(JLabel.CENTER);
         hws_date1_label.setVerticalAlignment(JLabel.CENTER);
@@ -441,6 +506,9 @@ public class Week_table extends JFrame {
         hws_panel2_2.setBounds(0, 30, 160, 90);
         hws_panel2_2.setBorder(border1);
         hws_panel2_2.setBackground(light_gray_color);
+        JLabel hwsLabel2_2  = new JLabel(printList.get(0).getAssignment_performance());
+        hwsLabel2_2.setFont(bigFont);
+        hws_panel2_2.add(hwsLabel2_2);
 
 
         hws_panel2.add(hws_panel2_1);
@@ -453,7 +521,7 @@ public class Week_table extends JFrame {
         hws_panel3.setBounds(250, 0, 160, 120);
         hws_panel3.setBorder(border1);
 
-        JLabel hws_date2_label = new JLabel("oooo.oo.oo");
+        JLabel hws_date2_label = new JLabel(printList.get(1).getDate());
         hws_date2_label.setFont(font3);
         hws_date2_label.setHorizontalAlignment(JLabel.CENTER);
         hws_date2_label.setVerticalAlignment(JLabel.CENTER);
@@ -469,7 +537,9 @@ public class Week_table extends JFrame {
         hws_panel3_2.setBounds(0, 30, 160, 90);
         hws_panel3_2.setBorder(border1);
         hws_panel3_2.setBackground(light_gray_color);
-
+        JLabel hwsLabel3_2  = new JLabel(printList.get(1).getAssignment_performance());
+        hwsLabel3_2.setFont(bigFont);
+        hws_panel3_2.add(hwsLabel3_2);
 
         hws_panel3.add(hws_panel3_1);
         hws_panel3.add(hws_panel3_2);
@@ -525,7 +595,7 @@ public class Week_table extends JFrame {
         pln_panel2.setBounds(90, 0, 160, 120);
         pln_panel2.setBorder(border1);
 
-        JLabel pln_date1_label = new JLabel("oooo.oo.oo");
+        JLabel pln_date1_label = new JLabel(printList.get(0).getDate());
         pln_date1_label.setFont(font3);
         pln_date1_label.setHorizontalAlignment(JLabel.CENTER);
         pln_date1_label.setVerticalAlignment(JLabel.CENTER);
@@ -540,6 +610,9 @@ public class Week_table extends JFrame {
         pln_panel2_2.setBounds(0, 30, 160, 90);
         pln_panel2_2.setBorder(border1);
         pln_panel2_2.setBackground(light_gray_color);
+        JLabel plnLabel2_2  = new JLabel(printList.get(0).getPlanner_performance());
+        plnLabel2_2.setFont(bigFont);
+        pln_panel2_2.add(plnLabel2_2);
 
 
         pln_panel2.add(pln_panel2_1);
@@ -552,7 +625,7 @@ public class Week_table extends JFrame {
         pln_panel3.setBounds(250, 0, 160, 120);
         pln_panel3.setBorder(border1);
 
-        JLabel pln_date2_label = new JLabel("oooo.oo.oo");
+        JLabel pln_date2_label = new JLabel(printList.get(1).getDate());
         pln_date2_label.setFont(font3);
         pln_date2_label.setHorizontalAlignment(JLabel.CENTER);
         pln_date2_label.setVerticalAlignment(JLabel.CENTER);
@@ -568,6 +641,9 @@ public class Week_table extends JFrame {
         pln_panel3_2.setBounds(0, 30, 160, 90);
         pln_panel3_2.setBorder(border1);
         pln_panel3_2.setBackground(light_gray_color);
+        JLabel plnLabel3_2  = new JLabel(printList.get(1).getPlanner_performance());
+        plnLabel3_2.setFont(bigFont);
+        pln_panel3_2.add(plnLabel3_2);
 
 
         pln_panel3.add(pln_panel3_1);
@@ -624,7 +700,7 @@ public class Week_table extends JFrame {
         hwk_panel2.setBounds(90, 0, 250, 120);
         hwk_panel2.setBorder(border1);
 
-        JLabel hwk_date1_label = new JLabel("oooo.oo.oo");
+        JLabel hwk_date1_label = new JLabel(printList.get(0).getDate());
         hwk_date1_label.setFont(font3);
         hwk_date1_label.setHorizontalAlignment(JLabel.CENTER);
         hwk_date1_label.setVerticalAlignment(JLabel.CENTER);
@@ -641,7 +717,8 @@ public class Week_table extends JFrame {
         hwk_panel2_2.setBackground(light_gray_color);
         JTextPane tpName = new JTextPane();
         tpName.setEditable(false);
-        tpName.setText(sList.get(k).getAssignment_comment()+"와ㄷ다다다ㅏ다다다다다다다다다다다다다다다다다다다다다다");
+        tpName.setText(printList.get(0).getAssignment_comment());
+        tpName.setBackground(light_gray_color);
 
         //tpName의 styleDocument를 가져와 가운데 정렬 설정
         StyledDocument doc = tpName.getStyledDocument();
@@ -661,7 +738,7 @@ public class Week_table extends JFrame {
         hwk_panel3.setBounds(340, 0, 250, 120);
         hwk_panel3.setBorder(border1);
 
-        JLabel hwk_date2_label = new JLabel("oooo.oo.oo");
+        JLabel hwk_date2_label = new JLabel(printList.get(1).getDate());
         hwk_date2_label.setFont(font3);
         hwk_date2_label.setHorizontalAlignment(JLabel.CENTER);
         hwk_date2_label.setVerticalAlignment(JLabel.CENTER);
@@ -677,7 +754,17 @@ public class Week_table extends JFrame {
         hwk_panel3_2.setBounds(0, 30, 250, 90);
         hwk_panel3_2.setBorder(border1);
         hwk_panel3_2.setBackground(light_gray_color);
+        JTextPane tpName2 = new JTextPane();
+        tpName2.setEditable(false);
+        tpName2.setText(printList.get(1).getAssignment_comment());
+        tpName2.setBackground(light_gray_color);
 
+        //tpName의 styleDocument를 가져와 가운데 정렬 설정
+        StyledDocument doc2 = tpName.getStyledDocument();
+        SimpleAttributeSet ce2 = new SimpleAttributeSet();
+        StyleConstants.setAlignment(ce2, StyleConstants.ALIGN_CENTER);
+        doc2.setParagraphAttributes(0, doc2.getLength(), ce2, false);
+        hwk_panel3_2.add(tpName2);
 
         hwk_panel3.add(hwk_panel3_1);
         hwk_panel3.add(hwk_panel3_2);
@@ -721,7 +808,7 @@ public class Week_table extends JFrame {
         tst_panel2.setBounds(90, 0, 250, 120);
         tst_panel2.setBorder(border1);
 
-        JLabel tst_date1_label = new JLabel("oooo.oo.oo");
+        JLabel tst_date1_label = new JLabel(printList.get(0).getDate());
         tst_date1_label.setFont(font3);
         tst_date1_label.setHorizontalAlignment(JLabel.CENTER);
         tst_date1_label.setVerticalAlignment(JLabel.CENTER);
@@ -736,7 +823,9 @@ public class Week_table extends JFrame {
         tst_panel2_2.setBounds(0, 30, 250, 90);
         tst_panel2_2.setBorder(border1);
         tst_panel2_2.setBackground(light_gray_color);
-
+        JLabel testLabel2_2  = new JLabel(printList.get(0).getTest_score());
+        testLabel2_2.setFont(bigFont);
+        tst_panel2_2.add(testLabel2_2);
 
         tst_panel2.add(tst_panel2_1);
         tst_panel2.add(tst_panel2_2);
@@ -748,7 +837,7 @@ public class Week_table extends JFrame {
         tst_panel3.setBounds(340, 0, 250, 120);
         tst_panel3.setBorder(border1);
 
-        JLabel tst_date2_label = new JLabel("oooo.oo.oo");
+        JLabel tst_date2_label = new JLabel(printList.get(1).getDate());
         tst_date2_label.setFont(font3);
         tst_date2_label.setHorizontalAlignment(JLabel.CENTER);
         tst_date2_label.setVerticalAlignment(JLabel.CENTER);
@@ -764,6 +853,9 @@ public class Week_table extends JFrame {
         tst_panel3_2.setBounds(0, 30, 250, 90);
         tst_panel3_2.setBorder(border1);
         tst_panel3_2.setBackground(light_gray_color);
+        JLabel testLabel3_2  = new JLabel(printList.get(1).getTest_score());
+        testLabel3_2.setFont(bigFont);
+        tst_panel3_2.add(testLabel3_2);
 
 
         tst_panel3.add(tst_panel3_1);
@@ -799,6 +891,7 @@ public class Week_table extends JFrame {
 
 
         // 각 패널들 추가
+
         c.add(title, BorderLayout.NORTH);
         c.add(center, BorderLayout.CENTER);
         c.add(east_panel, BorderLayout.EAST);
@@ -813,7 +906,22 @@ public class Week_table extends JFrame {
 
         setSize(880, 900);
         setVisible(true);
-    }
+        dispose();
 
+        // Create test file
+        File test1 = new File("C:\\Users\\home\\Desktop\\JFrame캡쳐\\"+sName+" "+sWeekNum+".png");
+
+        // Use the ImageIO API to write the bufferedImage to a temporary file
+        try {
+            BufferedImage im = new BufferedImage(c.getWidth(), c.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = im.createGraphics();
+            c.printAll(g2d);
+            g2d.dispose();
+            ImageIO.write(im, "png", test1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
 

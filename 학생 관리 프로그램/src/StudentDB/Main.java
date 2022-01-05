@@ -1,12 +1,24 @@
 package StudentDB;
 
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args){
         DBConnection connection = new DBConnection();
-//        System.out.println("순번이 0인 학생의 이름이 권규태 맞누?\n" + connection.isTrue("권규태",0));
-//        connection.showStudents();
-//        new StudentManagementProgram(connection.getStudentList());
-        Week_table week_table = new Week_table(connection.getStudentList(), connection.getStudentNames(),connection.getWeekNum());
-        ScreenShot sc = new ScreenShot(week_table);
+        ArrayList<String> nameList;
+        ArrayList<String> weekNumList;
+        nameList = connection.getStudentNames();
+        weekNumList = connection.getWeekNum();
+        int cnt = 0; //연습용
+        for (String weekNum : weekNumList) { //한 주차에 대해서
+            for (String name : nameList) {
+                if(cnt==5) break;
+                new Week_table(connection.getStudentList(), name, weekNumList.get(2));
+                cnt++;
+            }
+            break;
+        }
+        System.out.println("작업이 끝났습니다");
+//            ScreenShot sc = new ScreenShot(week_table, i);
     }
 }

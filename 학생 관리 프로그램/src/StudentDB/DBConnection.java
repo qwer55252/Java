@@ -132,6 +132,7 @@ public class DBConnection {
             while(rs.next()){
                 String weekNum;
                 weekNum = rs.getString("병합");
+                weekNumList.add(weekNum);
             }
             return weekNumList;
         }catch (Exception e){
